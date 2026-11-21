@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collection — Bliss Furnishing | Premium Outdoor Furniture, UAE</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loader"><img src="../images/logo.png" alt="Bliss Furnishing"></div>
+<div class="nav-shell">
+  <div class="nav-in">
+    <a class="logo" href="index.html"><img src="../images/logo.png" alt="Bliss Furnishing"></a>
+    <nav class="main" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="collection.html" class="active">Collection</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="btn" href="contact.html">Get a Quote <span class="arr">→</span></a>
+    <button class="burger" onclick="document.getElementById('mainNav').classList.toggle('open')">☰</button>
+  </div>
+</div>
+
+<section class="wrap pagehero">
+  <div class="eyebrow">The Collection</div>
+  <h1>Designed for the <em>Emirates</em> outdoors</h1>
+  <p>Sofas, gazebos, pergolas, umbrellas, shades, dining & lounge sets — shot and styled in UAE settings, customisable for villas, resorts and commercial projects. Prices are quoted per project.</p>
+</section>
+
+<section class="wrap" style="padding-bottom:26px">
+  <div class="chips" id="chips"></div>
+  <div class="sortrow">
+    <span id="count"></span>
+    <label>Sort by:
+      <select id="sort">
+        <option value="featured">Featured</option>
+        <option value="az">Name, A–Z</option>
+        <option value="za">Name, Z–A</option>
+      </select>
+    </label>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p id="empty" style="display:none;text-align:center;color:var(--muted);padding:30px 0">No products in this category yet.</p>
+</section>
+
+<section class="wrap sec">
+  <div class="sec-head rv">
+    <div class="eyebrow">Inspiration</div>
+    <h2>UAE outdoor living, <em>by Bliss</em></h2>
+  </div>
+  <div class="strip">
+    <figure class="rv"><img src="../images-uae/umbrella.jpg" alt="Beach club pool with Ain Dubai"><figcaption>Beach Clubs</figcaption></figure>
+    <figure class="rv" data-d="1"><img src="../images-uae/bar.jpg" alt="Rooftop lounge with Burj Khalifa at night"><figcaption>Rooftop Lounges</figcaption></figure>
+    <figure class="rv" data-d="2"><img src="../images-uae/accessories.jpg" alt="Majlis-style outdoor décor with lanterns"><figcaption>Majlis Evenings</figcaption></figure>
+    <figure class="rv" data-d="3"><img src="../images-uae/coffee.jpg" alt="Rooftop terrace sofas at dusk, Dubai skyline"><figcaption>Skyline Terraces</figcaption></figure>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta rv">
+    <div class="cbg"></div>
+    <h2>Can't find your size or style?</h2>
+    <p>Bliss custom-builds outdoor furniture — from design concept to delivery and installation.</p>
+    <a class="btn rose" href="contact.html">Request a Custom Design <span class="arr">→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <div><a class="logo" href="index.html"><img src="../images/logo.png" alt="Bliss Furnishing"></a><p style="margin-top:16px">Crafting Comfort, Shaping Spaces.<br>A proud legacy of Weavers Creation — 15+ years of craftsmanship.</p></div>
+      <div><h4>Explore</h4><a href="index.html">Home</a><a href="collection.html">Collection</a><a href="about.html">About</a><a href="services.html">Services</a><a href="contact.html">Contact</a></div>
+      <div><h4>Collection</h4><a href="collection.html">Sofas</a><a href="collection.html">Chairs</a><a href="collection.html">Dining</a><a href="collection.html">Gazebos & Pergolas</a><a href="collection.html">Umbrellas & Shades</a></div>
+      <div><h4>Get in Touch</h4><p>Email: sales@blissfurnishing.ae</p><p>Phone: +92 313 9168846</p><p>Web: www.blissfurnishing.ae</p><p>Showrooms: UAE & Indonesia (Jepara)</p></div>
+    </div>
+    <div class="big-word">Bliss</div>
+    <div class="foot-bar"><span>© 2026 Bliss Furnishing. All rights reserved.</span><span>Crafting Comfort, Shaping Spaces</span></div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),400));
+setTimeout(()=>document.getElementById('loader').classList.add('done'),2200);
+const PRODUCTS=[
+ {n:"Milano Sofa",c:"Sofas",img:"sofa.jpg",d:"Crafted for comfort, designed for elegance — plush cushioning, sleek silhouette, weather-resistant materials. Every size available; Ocean Mist blue, Sunset Coral, Classic Gray.",f:1},
+ {n:"Outdoor Lounge Set",c:"Sofas",img:"coffee.jpg",d:"Rooftop lounge sets made for golden-hour gatherings above the city."},
+ {n:"Balcony Lounge Chairs",c:"Chairs",img:"chairs.jpg",d:"Front-row seats to the skyline — sculpted comfort for balconies and terraces."},
+ {n:"Outdoor Dining Set",c:"Dining",img:"dining.jpg",d:"Premium dining sets for villa terraces and long Emirates evenings."},
+ {n:"Rooftop Bar Stools",c:"Bar Stools",img:"bar.jpg",d:"Bar seating with a view — for rooftops, pool bars and lounges."},
+ {n:"Bean Bags",c:"Bean Bags",img:"beanbags.jpg",d:"Relaxed poolside bean bags in weather-ready fabrics."},
+ {n:"Hanging Swing Chair",c:"Swings",img:"swing.jpg",d:"A gentle swing for gardens, verandas and quiet corners."},
+ {n:"Resort Sunbeds & Cabanas",c:"Sunbeds",img:"sunbeds.jpg",d:"Resort-grade sunbeds and cabanas for pool decks and beach clubs."},
+ {n:"Garden Gazebo",c:"Gazebos & Pergolas",img:"gazebo.jpg",d:"Draped garden gazebos — shade, privacy and a little theatre."},
+ {n:"Modern Pergola",c:"Gazebos & Pergolas",img:"pergola.jpg",d:"Clean-lined pergolas that turn any patio into a personal haven."},
+ {n:"Beach Club Umbrellas",c:"Shades",img:"umbrella.jpg",d:"Market and cantilever umbrellas plus shade sails for all-day comfort."},
+ {n:"Majlis Accessories & Décor",c:"Accessories",img:"accessories.jpg",d:"Lanterns, poufs and cushions — the finishing touches of an Emirates evening."}];
+const cats=["All",...new Set(PRODUCTS.map(p=>p.c))];
+let active="All";
+const chips=document.getElementById('chips');
+chips.innerHTML=cats.map(c=>`<button class="chip${c==='All'?' on':''}" data-c="${c}">${c}</button>`).join('');
+const grid=document.getElementById('grid');
+function render(){
+ let list=PRODUCTS.filter(p=>active==="All"||p.c===active);
+ const s=document.getElementById('sort').value;
+ if(s==='az')list=[...list].sort((a,b)=>a.n.localeCompare(b.n));
+ if(s==='za')list=[...list].sort((a,b)=>b.n.localeCompare(a.n));
+ grid.innerHTML=list.map((p,i)=>`
+  <div class="pcard" style="animation-delay:${i*0.07}s"><div class="ph"><img src="../images-uae/${p.img}" alt="${p.n}"><span class="pill${p.f?' rose':''}">${p.f?'Featured':p.c}</span></div>
+  <div class="info"><h3>${p.n}</h3><p class="desc">${p.d}</p>
+  <div class="row"><div class="price">Price on Request<small>Custom sizes available</small></div><a class="enq" href="contact.html">Enquire</a></div></div></div>`).join('');
+ document.getElementById('count').textContent=list.length+' products';
+ document.getElementById('empty').style.display=list.length?'none':'block';
+}
+chips.addEventListener('click',e=>{
+ const b=e.target.closest('.chip'); if(!b)return;
+ active=b.dataset.c;
+ chips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));
+ render();
+});
+document.getElementById('sort').addEventListener('change',render);
+render();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
