@@ -159,9 +159,12 @@ nav.main a.active{background:var(--navy);color:#fff}
 .list6 div{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px 21px;font-size:15.5px;font-weight:600;transition:.3s}
 .list6 div:hover{border-color:var(--rose);transform:translateX(6px)}
 .list6 b{color:var(--rose);font-family:'Fraunces',serif;margin-right:10px}
-.partners{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.partners span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:10px 20px;font-size:13.5px;font-weight:700;color:#44506a;transition:.25s}
-.partners span:hover{background:var(--navy);color:#fff;transform:translateY(-3px)}
+.partners{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.plogo{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 22px 12px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:9px;min-width:158px;transition:.25s}
+.plogo:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(8,22,48,.1);border-color:var(--rose)}
+.plogo img{height:36px;max-width:150px;object-fit:contain}
+.plogo span{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.4px}
+.plogo .wordmark{font-family:'Fraunces',serif;font-style:italic;font-size:21px;color:#44506a;height:36px;display:flex;align-items:center}
 /* ---------- gallery strip ---------- */
 .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .strip figure{border-radius:20px;overflow:hidden;height:250px;position:relative}
