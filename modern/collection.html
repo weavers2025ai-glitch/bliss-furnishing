@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collection — Bliss Furnishing | Premium Outdoor Furniture</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="nav-shell">
+  <div class="nav-in">
+    <a class="logo" href="index.html"><img src="../images/logo.png" alt="Bliss Furnishing"></a>
+    <nav class="main" id="mainNav">
+      <a href="index.html">Home</a>
+      <a href="collection.html" class="active">Collection</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="btn" href="contact.html">Get a Quote</a>
+    <button class="burger" onclick="document.getElementById('mainNav').classList.toggle('open')">☰</button>
+  </div>
+</div>
+
+<section class="wrap pagehero">
+  <div class="eyebrow">The Collection</div>
+  <h1>Designed for the <em style="color:var(--rose)">outdoors</em></h1>
+  <p>Sofas, gazebos, pergolas, umbrellas, shades, dining & lounge sets — premium outdoor furniture, customisable for villas, resorts and commercial projects. Prices are quoted per project.</p>
+</section>
+
+<section class="wrap" style="padding-bottom:20px">
+  <div class="chips" id="chips"></div>
+  <div class="sortrow">
+    <span id="count"></span>
+    <label>Sort by:
+      <select id="sort">
+        <option value="featured">Featured</option>
+        <option value="az">Name, A–Z</option>
+        <option value="za">Name, Z–A</option>
+      </select>
+    </label>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p id="empty" style="display:none;text-align:center;color:var(--muted);padding:30px 0">No products in this category yet.</p>
+</section>
+
+<section class="wrap sec">
+  <div class="feature">
+    <img src="../images/milano.jpg" alt="Milano Sofa in a coastal terrace setting">
+    <div>
+      <div class="eyebrow" style="color:var(--rose2)">Featured — Relax in Style</div>
+      <h2>The Milano Sofa</h2>
+      <p>Crafted for comfort, designed for elegance, the Milano Sofa brings resort-style relaxation to your outdoor space. With plush cushioning, a sleek silhouette, and weather-resistant materials, it's the perfect blend of luxury and durability.</p>
+      <p>Every size available. Colours: Ocean Mist blue, Sunset Coral, Classic Gray.</p>
+      <div class="swatches">
+        <span style="background:#7d9db5"></span><span style="background:#e07856"></span><span style="background:#8a8d91"></span>
+      </div>
+      <a class="btn rose" href="contact.html">Enquire About Milano</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Can't find your size or style?</h2>
+    <p>Bliss custom-builds outdoor furniture — from design concept to delivery and installation.</p>
+    <a class="btn rose" href="contact.html">Request a Custom Design</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <div><a class="logo" href="index.html"><img src="../images/logo.png" alt="Bliss Furnishing"></a><p style="margin-top:16px">Crafting Comfort, Shaping Spaces.<br>A proud legacy of Weavers Creation — 15+ years of craftsmanship.</p></div>
+      <div><h4>Explore</h4><a href="index.html">Home</a><a href="collection.html">Collection</a><a href="about.html">About</a><a href="services.html">Services</a><a href="contact.html">Contact</a></div>
+      <div><h4>Collection</h4><a href="collection.html">Sofas</a><a href="collection.html">Chairs</a><a href="collection.html">Dining</a><a href="collection.html">Gazebos & Pergolas</a><a href="collection.html">Umbrellas & Shades</a></div>
+      <div><h4>Get in Touch</h4><p>Email: sales@blissfurnishing.ae</p><p>Phone: +92 313 9168846</p><p>Web: www.blissfurnishing.ae</p><p>Showrooms: UAE & Indonesia (Jepara)</p></div>
+    </div>
+    <div class="big-word">Bliss</div>
+    <div class="foot-bar"><span>© 2026 Bliss Furnishing. All rights reserved.</span><span>Crafting Comfort, Shaping Spaces</span></div>
+  </div>
+</footer>
+
+<script>
+const PRODUCTS=[
+ {n:"Milano Sofa",c:"Sofas",img:"milano.jpg",d:"Crafted for comfort, designed for elegance — plush cushioning, sleek silhouette, weather-resistant materials. Every size available.",f:1},
+ {n:"Outdoor Sofa Set",c:"Sofas",img:"sofa-set.jpg",d:"Deep-seat lounge sets for gardens and terraces, built for everyday luxury."},
+ {n:"Lounge Chair",c:"Chairs",img:"lounge-chair.jpg",d:"Sculpted comfort for poolside and patio lounging."},
+ {n:"Rattan Dining Chairs",c:"Chairs",img:"rattan-chairs.jpg",d:"Hand-woven rattan charm with durable outdoor frames."},
+ {n:"Outdoor Dining Set",c:"Dining",img:"dining-set.jpg",d:"Premium teak and woven dining sets — dining inspirations for 6–10 guests."},
+ {n:"Coffee Table",c:"Tables",img:"coffee-table.jpg",d:"Clean-lined tables that anchor any outdoor lounge."},
+ {n:"Bar Stools",c:"Bar Stools",img:"bar-stools.jpg",d:"Outdoor bar seating for counters, cafés and pool bars."},
+ {n:"Bean Bags",c:"Bean Bags",img:"bean-bags.jpg",d:"Relaxed outdoor bean bags in weather-ready fabrics."},
+ {n:"Hanging Swing",c:"Swings",img:"swing.jpg",d:"A gentle swing for gardens, verandas and resort corners."},
+ {n:"Sunbeds & Loungers",c:"Sunbeds",img:"sunbeds.jpg",d:"Resort-grade sunbeds for pool decks and beach clubs."},
+ {n:"Wooden Gazebo",c:"Gazebos & Pergolas",img:"gazebo.jpg",d:"Bespoke wooden gazebos — shade, structure and a garden centrepiece."},
+ {n:"Pergola",c:"Gazebos & Pergolas",img:"pergola.jpg",d:"Elegant pergolas that turn any patio into a personal haven."},
+ {n:"Umbrellas & Shades",c:"Shades",img:"umbrella.jpg",d:"Market and cantilever umbrellas plus shade sails for all-day comfort."},
+ {n:"Cushions & Accessories",c:"Accessories",img:"accessories.jpg",d:"Finishing touches — outdoor cushions and décor in partner fabrics."}];
+const cats=["All",...new Set(PRODUCTS.map(p=>p.c))];
+let active="All";
+const chips=document.getElementById('chips');
+chips.innerHTML=cats.map(c=>`<button class="chip${c==='All'?' on':''}" data-c="${c}">${c}</button>`).join('');
+const grid=document.getElementById('grid');
+function render(){
+ let list=PRODUCTS.filter(p=>active==="All"||p.c===active);
+ const s=document.getElementById('sort').value;
+ if(s==='az')list=[...list].sort((a,b)=>a.n.localeCompare(b.n));
+ if(s==='za')list=[...list].sort((a,b)=>b.n.localeCompare(a.n));
+ grid.innerHTML=list.map(p=>`
+  <div class="pcard"><div class="ph"><img src="../images/${p.img}" alt="${p.n}"><span class="pill${p.f?' rose':''}">${p.f?'Featured':p.c}</span></div>
+  <div class="info"><h3>${p.n}</h3><p class="desc">${p.d}</p>
+  <div class="row"><div class="price">Price on Request<small>Custom sizes available</small></div><a class="enq" href="contact.html">Enquire</a></div></div></div>`).join('');
+ document.getElementById('count').textContent=list.length+' products';
+ document.getElementById('empty').style.display=list.length?'none':'block';
+}
+chips.addEventListener('click',e=>{
+ const b=e.target.closest('.chip'); if(!b)return;
+ active=b.dataset.c;
+ chips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));
+ render();
+});
+document.getElementById('sort').addEventListener('change',render);
+render();
+</script>
+</body>
+</html>
