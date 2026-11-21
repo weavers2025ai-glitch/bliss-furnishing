@@ -90,7 +90,12 @@
     <h2>Loved by villas & <em>resorts</em></h2>
     <p>Premium designs in weather-resistant materials — every piece customisable in size, fabric and finish.</p>
   </div>
-  <div class="grid" id="homeGrid"></div>
+  <div class="slider" id="prodSlider">
+    <button class="sbtn prev" aria-label="Previous products">‹</button>
+    <div class="sview"><div class="strack" id="sliderTrack"></div></div>
+    <button class="sbtn next" aria-label="Next products">›</button>
+  </div>
+  <div class="sdots" id="sliderDots"></div>
   <div style="text-align:center;margin-top:36px"><a class="btn" href="collection.html">View Full Collection <span class="arr">→</span></a></div>
 </section>
 
@@ -140,6 +145,20 @@
   </div>
 </section>
 
+<section class="wrap sec" style="padding-top:10px">
+  <div class="sec-head center rv">
+    <div class="eyebrow">Client Reviews</div>
+    <h2>What our <em>clients</em> say</h2>
+    <p>Villa owners, resorts, hotels and designers across the Emirates trust Bliss with their outdoor spaces.</p>
+  </div>
+  <div class="rev rv" id="revBox">
+    <button class="sbtn prev" aria-label="Previous review">‹</button>
+    <div class="rview"><div class="rtrack" id="revTrack"></div></div>
+    <button class="sbtn next" aria-label="Next review">›</button>
+  </div>
+  <div class="sdots" id="revDots"></div>
+</section>
+
 <section class="wrap">
   <div class="cta rv">
     <div class="cbg"></div>
@@ -174,11 +193,65 @@ const PRODUCTS=[
  {n:"Balcony Lounge Chairs",c:"Chairs",img:"chairs.jpg",d:"Front-row seats to the skyline — sculpted comfort for balconies and terraces."},
  {n:"Outdoor Dining Set",c:"Dining",img:"dining.jpg",d:"Premium dining sets for villa terraces and long Emirates evenings."},
  {n:"Garden Gazebo",c:"Gazebos & Pergolas",img:"gazebo.jpg",d:"Draped garden gazebos — shade, privacy and a little theatre."},
- {n:"Resort Sunbeds & Cabanas",c:"Sunbeds",img:"sunbeds.jpg",d:"Resort-grade sunbeds and cabanas for pool decks and beach clubs."}];
-document.getElementById('homeGrid').innerHTML=PRODUCTS.map((p,i)=>`
- <div class="pcard" style="animation-delay:${i*0.09}s"><div class="ph"><img src="../images-uae/${p.img}" alt="${p.n}"><span class="pill${p.f?' rose':''}">${p.f?'Featured':p.c}</span></div>
+ {n:"Resort Sunbeds & Cabanas",c:"Sunbeds",img:"sunbeds.jpg",d:"Resort-grade sunbeds and cabanas for pool decks and beach clubs."},
+ {n:"Rooftop Bar Stools",c:"Bar Stools",img:"bar.jpg",d:"Bar seating with a view — for rooftops, pool bars and lounges."},
+ {n:"Bean Bags",c:"Bean Bags",img:"beanbags.jpg",d:"Relaxed poolside bean bags in weather-ready fabrics."},
+ {n:"Hanging Swing Chair",c:"Swings",img:"swing.jpg",d:"A gentle swing for gardens, verandas and quiet corners."},
+ {n:"Garden Gazebo",c:"Gazebos & Pergolas",img:"gazebo.jpg",d:"Draped garden gazebos — shade, privacy and a little theatre."},
+ {n:"Modern Pergola",c:"Gazebos & Pergolas",img:"pergola.jpg",d:"Clean-lined pergolas that turn any patio into a personal haven."},
+ {n:"Beach Club Umbrellas",c:"Shades",img:"umbrella.jpg",d:"Market and cantilever umbrellas plus shade sails for all-day comfort."},
+ {n:"Majlis Accessories & Décor",c:"Accessories",img:"accessories.jpg",d:"Lanterns, poufs and cushions — the finishing touches of an Emirates evening."}];
+/* ---- product slider ---- */
+const track=document.getElementById('sliderTrack');
+track.innerHTML=PRODUCTS.map(p=>`
+ <div class="pcard"><div class="ph"><img src="../images-uae/${p.img}" alt="${p.n}"><span class="pill${p.f?' rose':''}">${p.f?'Featured':p.c}</span></div>
  <div class="info"><h3>${p.n}</h3><p class="desc">${p.d}</p>
  <div class="row"><div class="price">Price on Request<small>Custom sizes available</small></div><a class="enq" href="contact.html">Enquire</a></div></div></div>`).join('');
+let spage=0, stimer=null;
+const perView=()=>innerWidth<=640?1:innerWidth<=1020?2:3;
+const spages=()=>Math.ceil(PRODUCTS.length/perView());
+const sdots=document.getElementById('sliderDots');
+function sDraw(){sdots.innerHTML=Array.from({length:spages()},(_,i)=>`<button class="${i===spage?'on':''}" data-i="${i}" aria-label="Go to slide ${i+1}"></button>`).join('')}
+function sGo(i){
+ spage=(i+spages())%spages();
+ const card=track.children[0]; if(!card)return;
+ const w=card.getBoundingClientRect().width+20;
+ const maxShift=Math.max(0, track.scrollWidth - track.parentElement.clientWidth);
+ track.style.transform=`translateX(${-Math.min(spage*perView()*w, maxShift)}px)`;
+ sDraw();
+}
+function sAuto(){clearInterval(stimer); stimer=setInterval(()=>sGo(spage+1), 4500)}
+document.querySelector('#prodSlider .prev').addEventListener('click',()=>{sGo(spage-1); sAuto()});
+document.querySelector('#prodSlider .next').addEventListener('click',()=>{sGo(spage+1); sAuto()});
+sdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){sGo(+b.dataset.i); sAuto()}});
+document.getElementById('prodSlider').addEventListener('mouseenter',()=>clearInterval(stimer));
+document.getElementById('prodSlider').addEventListener('mouseleave',sAuto);
+addEventListener('resize',()=>sGo(spage));
+sGo(0); sAuto();
+/* ---- client reviews ---- */
+const REVIEWS=[
+ {img:"r1.jpg",n:"Ahmed Al Mansoori",w:"Villa Owner · Palm Jumeirah, Dubai",t:"The Milano sofa and pergola completely changed our terrace. The quality feels five-star hotel level, and the team finished everything exactly on schedule."},
+ {img:"r2.jpg",n:"Sarah Mitchell",w:"General Manager · Beach Resort, Dubai",t:"Bliss furnished our entire pool deck — sunbeds, cabanas and umbrellas. Two seasons of heavy use and everything still looks brand new."},
+ {img:"r3.jpg",n:"Khalid Rahman",w:"Owner · Café Group, Abu Dhabi",t:"We ordered custom dining sets for three café terraces. Guests constantly ask where the furniture is from. Best investment we made this year."},
+ {img:"r4.jpg",n:"Priya Nair",w:"Interior Designer · Dubai",t:"As a designer I am very picky about fabrics. Their Sunbrella and Agora ranges, plus fully custom sizes, make Bliss my first call for outdoor projects."},
+ {img:"r5.jpg",n:"Omar Al Farsi",w:"Procurement Manager · Hotel Group, UAE",t:"A complete FF&E package for our balcony furniture — design, fabrication, delivery and installation under one team. Flawless coordination."},
+ {img:"r6.jpg",n:"Layla Haddad",w:"Villa Owner · Emirates Hills, Dubai",t:"Our gazebo and swing corner is now the family's favourite place every evening. Beautiful craftsmanship, and their maintenance visits keep it perfect."}];
+const rtrack=document.getElementById('revTrack');
+rtrack.innerHTML=REVIEWS.map(r=>`
+ <div class="rev-card"><img src="../images/reviews/${r.img}" alt="${r.n}">
+ <div><div class="stars">★★★★★</div><blockquote>“${r.t}”</blockquote>
+ <div class="who"><b>${r.n}</b><span>${r.w}</span></div></div></div>`).join('');
+let rpage=0, rtimer=null;
+const rdots=document.getElementById('revDots');
+function rDraw(){rdots.innerHTML=REVIEWS.map((_,i)=>`<button class="${i===rpage?'on':''}" data-i="${i}" aria-label="Review ${i+1}"></button>`).join('')}
+function rGo(i){rpage=(i+REVIEWS.length)%REVIEWS.length; rtrack.style.transform=`translateX(${-rpage*100}%)`; rDraw()}
+function rAuto(){clearInterval(rtimer); rtimer=setInterval(()=>rGo(rpage+1), 6000)}
+document.querySelector('#revBox .prev').addEventListener('click',()=>{rGo(rpage-1); rAuto()});
+document.querySelector('#revBox .next').addEventListener('click',()=>{rGo(rpage+1); rAuto()});
+rdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){rGo(+b.dataset.i); rAuto()}});
+document.getElementById('revBox').addEventListener('mouseenter',()=>clearInterval(rtimer));
+document.getElementById('revBox').addEventListener('mouseleave',rAuto);
+rGo(0); rAuto();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 const cio=new IntersectionObserver(es=>es.forEach(e=>{
