@@ -211,7 +211,7 @@ function sPrev(){
 function sAuto(){ clearInterval(stimer); stimer=setInterval(sNext,4200); }
 document.querySelector('#prodSlider .prev').addEventListener('click',()=>{sPrev(); sAuto();});
 document.querySelector('#prodSlider .next').addEventListener('click',()=>{sNext(); sAuto();});
-document.getElementById('prodSlider').addEventListener('mouseenter',()=>clearInterval(stimer));
+/* products slider auto-scrolls continuously, like the reviews — it never pauses */
 document.getElementById('prodSlider').addEventListener('mouseleave',sAuto);
 document.getElementById('sliderDots').style.display='none';
 addEventListener('resize',()=>{ sClones(); sApply(false); });
