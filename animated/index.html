@@ -25,7 +25,12 @@
 </div>
 
 <section class="hero">
-  <div class="bg" id="heroBg"><img src="../images/hero-bliss.jpg" alt="Dubai Marina skyline — Bliss Furnishing villa terrace at sunset"></div>
+  <div class="bg" id="heroBg">
+    <div class="hslide on"><img src="../images/hero-bliss.jpg" alt="Dubai Marina skyline — Bliss Furnishing villa terrace at sunset"></div>
+    <div class="hslide"><img src="../images/terrace.jpg" alt="Dubai villa terrace with outdoor dining set"></div>
+    <div class="hslide"><img src="../images-uae/sofa.jpg" alt="Milano Sofa set by a Dubai pool"></div>
+  </div>
+  <div class="hdots" id="heroDots"></div>
   <div class="float-chip chip1"><span class="dot"></span><span>Now in the UAE<small>Showrooms — Dubai & Jepara</small></span></div>
   <div class="float-chip chip2"><span>✦</span><span>Custom FF&E Projects<small>Villas · Resorts · Hotels</small></span></div>
   <div class="wrap hero-in">
@@ -35,22 +40,15 @@
       <span class="line"><span><em>beautifully</em> crafted</span></span>
       <span class="line"><span>for the Emirates.</span></span>
     </h1>
-    <p>Premium outdoor furniture for Dubai villas, Palm Jumeirah terraces, resorts and commercial spaces — a proud legacy of Weavers Creation, trusted for over 15 years.</p>
+    <p>Premium outdoor furniture for Dubai villas, resorts and terraces — a proud legacy of Weavers Creation.</p>
     <div class="hero-cta">
       <a class="btn rose" href="collection.html">Explore the Collection <span class="arr">→</span></a>
       <a class="btn ghost" href="services.html">FF&E Project Services</a>
     </div>
-    <div class="hero-stats">
-      <div><b><span class="count" data-to="15">0</span>+</b><span>Years of Craft</span></div>
-      <div><b><span class="count" data-to="2">0</span></b><span>Countries — UAE & Indonesia</span></div>
-      <div><b><span class="count" data-to="9">0</span></b><span>FF&E Services</span></div>
-      <div><b><span class="count" data-to="100">0</span>%</b><span>Customisable</span></div>
-    </div>
   </div>
   <div class="scroll-hint">Scroll</div>
+  <div class="marquee"><div class="track" id="mq"></div></div>
 </section>
-
-<div class="marquee"><div class="track" id="mq"></div></div>
 
 <section class="wrap sec">
   <div class="sec-head rv">
@@ -197,7 +195,6 @@ const PRODUCTS=[
  {n:"Rooftop Bar Stools",c:"Bar Stools",img:"bar.jpg",d:"Bar seating with a view — for rooftops, pool bars and lounges."},
  {n:"Bean Bags",c:"Bean Bags",img:"beanbags.jpg",d:"Relaxed poolside bean bags in weather-ready fabrics."},
  {n:"Hanging Swing Chair",c:"Swings",img:"swing.jpg",d:"A gentle swing for gardens, verandas and quiet corners."},
- {n:"Garden Gazebo",c:"Gazebos & Pergolas",img:"gazebo.jpg",d:"Draped garden gazebos — shade, privacy and a little theatre."},
  {n:"Modern Pergola",c:"Gazebos & Pergolas",img:"pergola.jpg",d:"Clean-lined pergolas that turn any patio into a personal haven."},
  {n:"Beach Club Umbrellas",c:"Shades",img:"umbrella.jpg",d:"Market and cantilever umbrellas plus shade sails for all-day comfort."},
  {n:"Majlis Accessories & Décor",c:"Accessories",img:"accessories.jpg",d:"Lanterns, poufs and cushions — the finishing touches of an Emirates evening."}];
@@ -238,19 +235,30 @@ const REVIEWS=[
  {img:"r6.jpg",n:"Layla Haddad",w:"Villa Owner · Emirates Hills, Dubai",t:"Our gazebo and swing corner is now the family's favourite place every evening. Beautiful craftsmanship, and their maintenance visits keep it perfect."}];
 const rtrack=document.getElementById('revTrack');
 rtrack.innerHTML=REVIEWS.map(r=>`
- <div class="rev-card"><img src="../images/reviews/${r.img}" alt="${r.n}">
- <div><div class="stars">★★★★★</div><blockquote>“${r.t}”</blockquote>
+ <div class="rev-card"><div class="rc"><img src="../images/reviews/${r.img}" alt="${r.n}">
+ <div class="stars">★★★★★</div><blockquote>“${r.t}”</blockquote>
  <div class="who"><b>${r.n}</b><span>${r.w}</span></div></div></div>`).join('');
 let rpage=0, rtimer=null;
 const rdots=document.getElementById('revDots');
-function rDraw(){rdots.innerHTML=REVIEWS.map((_,i)=>`<button class="${i===rpage?'on':''}" data-i="${i}" aria-label="Review ${i+1}"></button>`).join('')}
-function rGo(i){rpage=(i+REVIEWS.length)%REVIEWS.length; rtrack.style.transform=`translateX(${-rpage*100}%)`; rDraw()}
-function rAuto(){clearInterval(rtimer); rtimer=setInterval(()=>rGo(rpage+1), 6000)}
+const ACCENTS=['#c08a8d','#d9b98a','#0d1f3c','#7d9db5'];
+const rPer=()=>innerWidth<=700?1:3;
+const rMax=()=>Math.max(0, REVIEWS.length-rPer());
+function rDraw(){rdots.innerHTML=Array.from({length:rMax()+1},(_,i)=>`<button class="${i===rpage?'on':''}" data-i="${i}" aria-label="Reviews ${i+1}"></button>`).join('')}
+function rGo(i){
+ rpage=((i%(rMax()+1))+(rMax()+1))%(rMax()+1);
+ rtrack.style.transform=`translateX(${-rpage*(100/rPer())}%)`;
+ const mid=rpage+Math.floor(rPer()/2);
+ rtrack.querySelectorAll('.rev-card').forEach((c,k)=>c.classList.toggle('mid',k===mid));
+ document.documentElement.style.setProperty('--revAccent',ACCENTS[rpage%ACCENTS.length]);
+ rDraw();
+}
+function rAuto(){clearInterval(rtimer); rtimer=setInterval(()=>rGo(rpage+1), 4500)}
 document.querySelector('#revBox .prev').addEventListener('click',()=>{rGo(rpage-1); rAuto()});
 document.querySelector('#revBox .next').addEventListener('click',()=>{rGo(rpage+1); rAuto()});
 rdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){rGo(+b.dataset.i); rAuto()}});
 document.getElementById('revBox').addEventListener('mouseenter',()=>clearInterval(rtimer));
 document.getElementById('revBox').addEventListener('mouseleave',rAuto);
+addEventListener('resize',()=>rGo(rpage));
 rGo(0); rAuto();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
@@ -260,6 +268,15 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{
  (function tick(t){const p=Math.min((t-t0)/1400,1);e.target.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick)})(t0);
 }),{threshold:.5});
 document.querySelectorAll('.count').forEach(el=>cio.observe(el));
+
+/* ---- hero slider ---- */
+const hslides=document.querySelectorAll('.hslide'), hdots=document.getElementById('heroDots');
+let hcur=0, htimer=null;
+function hDraw(){hdots.innerHTML=Array.from(hslides,(_,i)=>`<button class="${i===hcur?'on':''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join('')}
+function hGo(i){hcur=(i+hslides.length)%hslides.length; hslides.forEach((s,k)=>s.classList.toggle('on',k===hcur)); hDraw()}
+function hAuto(){clearInterval(htimer); htimer=setInterval(()=>hGo(hcur+1),6000)}
+hdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){hGo(+b.dataset.i); hAuto()}});
+hGo(0); hAuto();
 const bg=document.getElementById('heroBg');
 addEventListener('scroll',()=>{const y=scrollY;if(y<innerHeight)bg.style.transform=`translateY(${y*0.22}px)`},{passive:true});
 </script>
