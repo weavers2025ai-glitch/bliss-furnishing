@@ -251,3 +251,19 @@ footer a:hover{color:#fff}
  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
  .rv{opacity:1;transform:none}
 }
+
+/* ---------- store nav + hero texts ---------- */
+.nav-acts{display:flex;align-items:center;gap:8px}
+.nicon{position:relative;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--sand);font-size:17px}
+.cartCount{position:absolute;top:-4px;right:-4px;background:var(--rose);color:#fff;font-size:11px;font-weight:800;min-width:19px;height:19px;border-radius:99px;place-items:center;padding:0 5px;display:none}
+.hero-texts{position:absolute;left:50%;transform:translateX(-50%);bottom:104px;width:100%;z-index:3}
+.htext{position:absolute;left:24px;right:24px;bottom:0;opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;pointer-events:none;max-width:760px}
+.htext.on{opacity:1;transform:none;pointer-events:auto}
+.htext h1{font-size:clamp(30px,4.2vw,50px);max-width:640px;line-height:1.08;color:#fff;text-shadow:0 3px 26px rgba(8,22,48,.55),0 1px 3px rgba(8,22,48,.5)}
+.htext h1 em{font-style:italic;color:#f3c6a5;text-shadow:0 2px 16px rgba(8,22,48,.9),0 1px 3px rgba(8,22,48,.95)}
+.htext .eyebrow{color:#ffe1e2;text-shadow:0 1px 10px rgba(8,22,48,.65)}
+.htext p{max-width:520px;font-size:16px;color:#f2f5fb;margin:13px 0 20px;text-shadow:0 1px 12px rgba(8,22,48,.7)}
+.harr{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(8,22,48,.35);backdrop-filter:blur(4px);color:#fff;font-size:22px;cursor:pointer;display:grid;place-items:center}
+.harr:hover{background:rgba(8,22,48,.65)}
+.harr.prev{left:16px}.harr.next{right:16px}
+@media(max-width:700px){.harr{display:none}.hero-texts{bottom:118px}}

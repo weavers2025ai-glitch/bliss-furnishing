@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Bliss Furnishing</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1f3c;--rose:#c08a8d;--gold:#d9b98a;--cream:#f8f3ec;--sand:#f0e7da;--ink:#1d2534;--muted:#6b7382;--line:#e6ddcf}
+body{font-family:'Manrope',sans-serif;background:var(--cream);color:var(--ink)}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:500}
+button{font-family:inherit;cursor:pointer}
+.gate{max-width:400px;margin:12vh auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:36px 32px;text-align:center}
+.gate img{height:64px;margin:0 auto 14px}
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.side{background:var(--navy);color:#fff;padding:24px 16px;position:sticky;top:0;height:100vh}
+.side img{height:44px;background:#fff;border-radius:10px;padding:5px 8px;margin-bottom:20px}
+.side a{display:block;color:#cfd9ec;padding:11px 13px;border-radius:11px;font-weight:700;font-size:14.5px;cursor:pointer;margin-bottom:3px}
+.side a.on,.side a:hover{background:rgba(255,255,255,.13);color:#fff}
+.main{padding:28px 30px;max-width:1080px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:18px 0 26px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:19px}
+.stat b{font-family:'Fraunces',serif;font-size:31px;display:block}
+.stat span{color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+th,td{padding:11px 13px;text-align:left;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--sand);font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:12.5px;font-weight:800;margin-bottom:4px}
+.fld input,.fld textarea,.fld select{width:100%;padding:10px 12px;border:1.5px solid #d9d0bf;border-radius:11px;font-family:inherit;font-size:14px;background:#fff}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:99px;padding:11px 22px;font-weight:800}
+.btn.rose{background:var(--rose)} .btn.ghost{background:#fff;color:var(--ink);border:1.5px solid #d9d0bf}
+.btn.sm{padding:7px 14px;font-size:13px}
+.editor{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;margin:16px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.slidebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:15px}
+.hint{font-size:12.5px;color:var(--muted)}
+.thumb{width:56px;height:56px;object-fit:cover;border-radius:9px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.side{position:static;height:auto}}
+</style>
+</head>
+<body>
+<div id="gate" class="gate" style="display:none">
+  <img src="../images/logo.png" alt="Bliss Furnishing">
+  <h2 style="margin-bottom:6px">Admin Panel</h2>
+  <p class="hint" style="margin-bottom:16px">Enter the admin password to continue.</p>
+  <div class="fld"><input type="password" id="pwIn" placeholder="Password" style="text-align:center"></div>
+  <button class="btn rose" style="width:100%" onclick="tryLogin()">Log In</button>
+  <p class="hint" style="margin-top:12px">Default: bliss-admin-2026 (change it in Settings)</p>
+</div>
+
+<div id="app" class="layout" style="display:none">
+  <aside class="side">
+    <img src="../images/logo.png" alt="Bliss Furnishing">
+    <a data-v="dash" class="on">📊 Dashboard</a>
+    <a data-v="prods">🛋 Products</a>
+    <a data-v="slides">🖼 Hero Slides</a>
+    <a data-v="orders">🧾 Orders</a>
+    <a data-v="custs">👥 Customers</a>
+    <a data-v="sets">⚙️ Settings</a>
+    <a data-v="data">💾 Data</a>
+    <a href="../animated/index.html" style="margin-top:16px">← View Website</a>
+    <a onclick="logout()">Log Out</a>
+  </aside>
+  <div class="main" id="view"></div>
+</div>
+
+<script>window.ROOT="../";</script>
+<script src="../data/products.js"></script>
+<script src="../assets/store.js"></script>
+<script>
+const PWK="bliss_admin_pw";
+const getPw=()=>localStorage.getItem(PWK)||"bliss-admin-2026";
+function tryLogin(){ if(pwIn.value===getPw()){ sessionStorage.setItem("bliss_admin","1"); boot(); } else alert("Wrong password"); }
+function logout(){ sessionStorage.removeItem("bliss_admin"); location.reload(); }
+function boot(){ gate.style.display="none"; app.style.display="grid"; show("dash"); }
+if(sessionStorage.getItem("bliss_admin")==="1") boot(); else gate.style.display="block";
+pwIn.addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin()});
+
+const view=document.getElementById('view');
+document.querySelectorAll('.side a[data-v]').forEach(a=>a.addEventListener('click',()=>{
+  document.querySelectorAll('.side a[data-v]').forEach(x=>x.classList.toggle('on',x===a)); show(a.dataset.v); }));
+const BUILTIN=["images/milano.jpg","images/sofa-set.jpg","images/lounge-chair.jpg","images/rattan-chairs.jpg","images/dining-set.jpg","images/gazebo.jpg","images/pergola.jpg","images/umbrella.jpg","images/sunbeds.jpg","images/swing.jpg","images/bar-stools.jpg","images/bean-bags.jpg","images/coffee-table.jpg","images/accessories.jpg","images/hero-bliss.jpg","images/terrace.jpg","images-uae/sofa.jpg","images-uae/dining.jpg","images-uae/sunbeds.jpg","images-uae/gazebo.jpg","images-uae/umbrella.jpg","images-uae/coffee.jpg"];
+const imgSrc=p=> (p.img||"").startsWith("data:")||(p.img||"").startsWith("http") ? p.img : "../"+p.img;
+
+function show(v){
+  if(v==="dash"){
+    const os=Bliss.orders(), us=Bliss.users(), ps=Bliss.products();
+    const rev=os.filter(o=>!o.quote).reduce((a,o)=>a+(o.total||0),0);
+    view.innerHTML=`<h2>Dashboard</h2>
+    <div class="cards">
+      <div class="stat"><b>${ps.length}</b><span>Products</span></div>
+      <div class="stat"><b>${os.length}</b><span>Orders</span></div>
+      <div class="stat"><b>${us.length}</b><span>Customers</span></div>
+      <div class="stat"><b>${Bliss.money(rev)}</b><span>Priced Revenue</span></div>
+    </div>
+    <h3 style="margin-bottom:10px">Recent orders</h3>
+    ${os.length?`<table><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr>
+      ${os.slice(0,6).map(o=>`<tr><td><b>${o.id}</b><br><span class="hint">${o.at}</span></td><td>${o.customer.name}<br><span class="hint">${o.customer.phone}</span></td><td>${o.items.map(i=>i.n+" × "+i.qty).join("<br>")}</td><td>${o.quote?"On request":Bliss.money(o.total)}</td><td>${o.status}</td></tr>`).join('')}</table>`
+      :'<p class="hint">No orders yet. Orders placed on the website (in the same browser) appear here.</p>'}`;
+  }
+  if(v==="prods"){
+    const ps=Bliss.products();
+    view.innerHTML=`<h2>Products</h2><p class="hint" style="margin:6px 0 14px">Price 0 shows “Price on Request” on the website. Set an AED price to sell at a fixed price.</p>
+    <button class="btn rose" onclick="editProd(null)">+ Add Product</button>
+    <div id="edBox"></div>
+    <table style="margin-top:16px"><tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Featured</th><th></th></tr>
+    ${ps.map(p=>`<tr><td><img class="thumb" src="${imgSrc(p)}"></td><td><b>${p.n}</b></td><td>${p.c}</td><td>${p.price?Bliss.money(p.price):'On Request'}</td><td>${p.f?'★':''}</td>
+      <td><button class="btn sm ghost" onclick="editProd(${p.id})">Edit</button> <button class="btn sm ghost" onclick="delProd(${p.id})">Delete</button></td></tr>`).join('')}</table>`;
+  }
+  if(v==="slides"){
+    const sl=Bliss.settings().heroSlides;
+    view.innerHTML=`<h2>Hero Slides</h2><p class="hint" style="margin:6px 0 14px">These rotate on the home page — each slide has its own picture and text.</p>
+    <div id="slBox">${sl.map((s,i)=>slideForm(s,i)).join('')}</div>
+    <button class="btn ghost" onclick="addSlide()">+ Add Slide</button>
+    <button class="btn rose" onclick="saveSlides()">Save Slides</button>`;
+  }
+  if(v==="orders"){
+    const os=Bliss.orders();
+    view.innerHTML=`<h2>Orders</h2><div style="height:12px"></div>
+    ${os.length?`<table><tr><th>Order</th><th>Customer</th><th>Items</th><th>Payment</th><th>Total</th><th>Status</th><th></th></tr>
+    ${os.map((o,i)=>`<tr><td><b>${o.id}</b><br><span class="hint">${o.at}</span></td>
+      <td>${o.customer.name}<br><span class="hint">${o.customer.phone} · ${o.customer.city||''}<br>${o.customer.addr||''}</span></td>
+      <td>${o.items.map(x=>x.n+" × "+x.qty).join("<br>")}</td><td>${o.payment}</td><td>${o.quote?"On request":Bliss.money(o.total)}</td>
+      <td><select onchange="setStatus(${i},this.value)">${["New","Confirmed","Delivered","Cancelled"].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></td>
+      <td><button class="btn sm ghost" onclick="delOrder(${i})">Delete</button></td></tr>`).join('')}</table>`
+    :'<p class="hint">No orders yet.</p>'}`;
+  }
+  if(v==="custs"){
+    const us=Bliss.users();
+    view.innerHTML=`<h2>Customers</h2><div style="height:12px"></div>
+    ${us.length?`<table><tr><th>Name</th><th>Email</th><th>Phone</th><th>Via</th></tr>
+    ${us.map(u=>`<tr><td><b>${u.name}</b></td><td>${u.email}</td><td>${u.phone||'—'}</td><td>${u.provider==='google'?'Google':'Sign-up form'}</td></tr>`).join('')}</table>`
+    :'<p class="hint">No customers yet. Accounts created on the website (in the same browser) appear here.</p>'}`;
+  }
+  if(v==="sets"){
+    const s=Bliss.settings();
+    view.innerHTML=`<h2>Settings</h2><div class="editor">
+     <div class="grid2">
+      <div class="fld"><label>WhatsApp number (with country code)</label><input id="sWa" value="${s.wa}"></div>
+      <div class="fld"><label>Contact email</label><input id="sEmail" value="${s.email}"></div>
+     </div>
+     <div class="fld"><label>Google Client ID (for “Continue with Google”)</label><input id="sGid" value="${s.googleClientId}" placeholder="e.g. 123456789-abc.apps.googleusercontent.com">
+      <span class="hint">Create one free in Google Cloud Console → APIs & Services → Credentials → OAuth Client ID (Web). Paste it here and Google sign-in activates on the Account page.</span></div>
+     <div class="fld"><label>Admin password</label><input id="sPw" value="${getPw()}"></div>
+     <button class="btn rose" onclick="saveSets()">Save Settings</button></div>`;
+  }
+  if(v==="data"){
+    view.innerHTML=`<h2>Data</h2><div class="editor">
+     <p class="hint" style="margin-bottom:13px">Products, orders, customers and settings are stored in this browser. Export a backup before changing devices.</p>
+     <button class="btn" onclick="exportData()">Export Backup (JSON)</button>
+     <label class="btn ghost" style="display:inline-block">Import Backup <input type="file" accept=".json" style="display:none" onchange="importData(this)"></label>
+     <button class="btn ghost" onclick="if(confirm('Reset ALL store data to defaults?')){['bliss_override','bliss_orders','bliss_users','bliss_settings','bliss_cart'].forEach(k=>localStorage.removeItem(k));alert('Reset done');show('dash')}">Reset Everything</button></div>`;
+  }
+}
+/* products */
+function editProd(id){
+  const ps=Bliss.products();
+  const p=id?ps.find(x=>x.id===id):{id:Date.now(),n:"",c:"Sofas",img:"images/milano.jpg",price:0,f:0,d:""};
+  edBox.innerHTML=`<div class="editor"><h3 style="margin-bottom:13px">${id?'Edit':'Add'} Product</h3>
+   <div class="grid2">
+    <div class="fld"><label>Name</label><input id="pN" value="${(p.n||'').replace(/"/g,'&quot;')}"></div>
+    <div class="fld"><label>Category</label><input id="pC" value="${p.c}" list="catDl"><datalist id="catDl">${[...new Set(ps.map(x=>x.c))].map(c=>`<option>${c}</option>`).join('')}</datalist></div>
+    <div class="fld"><label>Price (AED) — 0 = Price on Request</label><input id="pP" type="number" min="0" value="${p.price||0}"></div>
+    <div class="fld"><label>Featured</label><select id="pF"><option value="0" ${!p.f?'selected':''}>No</option><option value="1" ${p.f?'selected':''}>Yes ★</option></select></div>
+   </div>
+   <div class="fld"><label>Image — pick a built-in photo, paste a URL, or upload</label>
+    <input id="pI" value="${(p.img||'').replace(/"/g,'&quot;')}" list="imgDl"><datalist id="imgDl">${BUILTIN.map(b=>`<option>${b}</option>`).join('')}</datalist></div>
+   <div class="fld"><input type="file" accept="image/*" onchange="upImg(this)"><span class="hint">Uploading stores the photo inside the product (best for small images).</span></div>
+   <div class="fld"><label>Description</label><textarea id="pD" rows="3">${p.d||''}</textarea></div>
+   <button class="btn rose" onclick="saveProd(${p.id})">Save Product</button>
+   <button class="btn ghost" onclick="show('prods')">Cancel</button></div>`;
+}
+function upImg(inp){ const f=inp.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ pI.value=r.result; }; r.readAsDataURL(f); }
+function saveProd(id){
+  let ps=Bliss.products();
+  const rec={id, n:pN.value.trim(), c:pC.value.trim()||"Sofas", price:+pP.value||0, f:+pF.value, img:pI.value.trim(), d:pD.value.trim()};
+  const ix=ps.findIndex(x=>x.id===id); if(ix>=0)ps[ix]=rec; else ps.push(rec);
+  Bliss.saveProducts(ps); show('prods');
+}
+function delProd(id){ if(!confirm("Delete this product?"))return; Bliss.saveProducts(Bliss.products().filter(x=>x.id!==id)); show('prods'); }
+/* slides */
+function slideForm(s,i){
+  return `<div class="slidebox" data-i="${i}"><h3 style="margin-bottom:11px">Slide ${i+1}</h3>
+   <div class="grid2">
+    <div class="fld"><label>Image path or URL</label><input class="sImg" value="${(s.img||'').replace(/"/g,'&quot;')}" list="imgDl2"></div>
+    <div class="fld"><label>Small top line (eyebrow)</label><input class="sKick" value="${(s.kick||'').replace(/"/g,'&quot;')}"></div>
+    <div class="fld"><label>Heading</label><input class="sH" value="${(s.h||'').replace(/"/g,'&quot;')}"></div>
+    <div class="fld"><label>Button text</label><input class="sBtn" value="${(s.btn||'').replace(/"/g,'&quot;')}"></div>
+   </div>
+   <div class="fld"><label>Sub text</label><input class="sSub" value="${(s.sub||'').replace(/"/g,'&quot;')}"></div>
+   <div class="fld"><label>Button link (page)</label><input class="sLink" value="${s.link||'collection.html'}"></div>
+   <button class="btn sm ghost" onclick="this.closest('.slidebox').remove()">Remove Slide</button></div>`;
+}
+function addSlide(){ slBox.insertAdjacentHTML('beforeend', slideForm({img:"images/hero-bliss.jpg",kick:"",h:"",sub:"",btn:"Explore",link:"collection.html"}, document.querySelectorAll('.slidebox').length)); }
+function saveSlides(){
+  const slides=[...document.querySelectorAll('.slidebox')].map(b=>({img:b.querySelector('.sImg').value.trim(),kick:b.querySelector('.sKick').value.trim(),h:b.querySelector('.sH').value.trim(),sub:b.querySelector('.sSub').value.trim(),btn:b.querySelector('.sBtn').value.trim(),link:b.querySelector('.sLink').value.trim()}));
+  const s=Bliss.settings(); s.heroSlides=slides; Bliss.saveSettings(s); alert("Slides saved — refresh the home page to see them.");
+}
+/* orders/customers/settings/data */
+function setStatus(i,st){ const os=Bliss.orders(); os[i].status=st; Bliss.saveOrders(os); }
+function delOrder(i){ if(!confirm("Delete this order?"))return; const os=Bliss.orders(); os.splice(i,1); Bliss.saveOrders(os); show('orders'); }
+function saveSets(){ const s=Bliss.settings(); s.wa=sWa.value.trim(); s.email=sEmail.value.trim(); s.googleClientId=sGid.value.trim(); Bliss.saveSettings(s); localStorage.setItem(PWK, sPw.value.trim()||getPw()); alert("Settings saved."); }
+function exportData(){
+  const d={}; ["bliss_override","bliss_orders","bliss_users","bliss_settings"].forEach(k=>d[k]=localStorage.getItem(k));
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(d)],{type:"application/json"})); a.download="bliss-backup.json"; a.click();
+}
+function importData(inp){ const f=inp.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ try{ const d=JSON.parse(r.result); Object.keys(d).forEach(k=>{ if(d[k]!=null) localStorage.setItem(k,d[k]); }); alert("Backup imported."); show('dash'); }catch(e){ alert("Invalid file"); } }; r.readAsText(f); }
+</script>
+<datalist id="imgDl2"></datalist>
+<script>document.getElementById('imgDl2').innerHTML=BUILTIN.map(b=>`<option>${b}</option>`).join('');</script>
+</body>
+</html>

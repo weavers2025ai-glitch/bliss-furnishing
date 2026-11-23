@@ -19,33 +19,21 @@
       <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <a class="btn" href="contact.html">Get a Quote <span class="arr">→</span></a>
+    <div class="nav-acts">
+      <a class="nicon" href="account.html" title="My Account">👤</a>
+      <a class="nicon" href="cart.html" title="Cart">🛍<span class="cartCount">0</span></a>
+      <a class="btn" href="contact.html">Get a Quote <span class="arr">→</span></a>
+    </div>
     <button class="burger" onclick="document.getElementById('mainNav').classList.toggle('open')">☰</button>
   </div>
 </div>
 
 <section class="hero">
-  <div class="bg" id="heroBg">
-    <div class="hslide on"><img src="../images/hero-bliss.jpg" alt="Dubai Marina skyline — Bliss Furnishing villa terrace at sunset"></div>
-    <div class="hslide"><img src="../images/terrace.jpg" alt="Dubai villa terrace with outdoor dining set"></div>
-    <div class="hslide"><img src="../images-uae/sofa.jpg" alt="Milano Sofa set by a Dubai pool"></div>
-  </div>
+  <div class="bg" id="heroBg"></div>
+  <button class="harr prev" id="hPrev" aria-label="Previous slide">‹</button>
+  <button class="harr next" id="hNext" aria-label="Next slide">›</button>
+  <div class="hero-texts wrap" id="heroTexts"></div>
   <div class="hdots" id="heroDots"></div>
-  <div class="float-chip chip1"><span class="dot"></span><span>Now in the UAE<small>Showrooms — Dubai & Jepara</small></span></div>
-  <div class="float-chip chip2"><span>✦</span><span>Custom FF&E Projects<small>Villas · Resorts · Hotels</small></span></div>
-  <div class="wrap hero-in">
-    <div class="eyebrow" style="color:var(--rose2)">Bliss Furnishing · Crafting Comfort, Shaping Spaces</div>
-    <h1>
-      <span class="line"><span>Outdoor living,</span></span>
-      <span class="line"><span><em>beautifully</em> crafted</span></span>
-      <span class="line"><span>for the Emirates.</span></span>
-    </h1>
-    <p>Premium outdoor furniture for Dubai villas, resorts and terraces — a proud legacy of Weavers Creation.</p>
-    <div class="hero-cta">
-      <a class="btn rose" href="collection.html">Explore the Collection <span class="arr">→</span></a>
-      <a class="btn ghost" href="services.html">FF&E Project Services</a>
-    </div>
-  </div>
   <div class="scroll-hint">Scroll</div>
   <div class="marquee"><div class="track" id="mq"></div></div>
 </section>
@@ -77,7 +65,7 @@
         <span style="background:#7d9db5"></span><span style="background:#e07856"></span><span style="background:#8a8d91"></span>
         <small>Ocean Mist · Sunset Coral · Classic Gray</small>
       </div>
-      <a class="btn rose" href="contact.html">Enquire About Milano <span class="arr">→</span></a>
+      <a class="btn rose" href="#" onclick="Bliss.addToCart(1);return false">Add to Cart</a> <a class="btn" href="contact.html" style="margin-left:8px">Enquire <span class="arr">→</span></a>
     </div>
   </div>
 </section>
@@ -179,52 +167,54 @@
   </div>
 </footer>
 
+<script>window.ROOT="../";</script>
+<script src="../data/products.js"></script>
+<script src="../assets/store.js"></script>
 <script>
 window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),500));
 setTimeout(()=>document.getElementById('loader').classList.add('done'),2200);
 const items=["Outdoor Sofas","Gazebos & Pergolas","Umbrellas & Shades","Dining Sets","Sunbeds & Cabanas","Swings","Custom FF&E Projects","Made in Jepara · Finished in Dubai"];
 const seq=items.map(t=>`<span>${t}</span><i>✦</i>`).join('');
 document.getElementById('mq').innerHTML=seq+seq;
-const PRODUCTS=[
- {n:"Milano Sofa",c:"Sofas",img:"sofa.jpg",d:"Resort-style relaxation with plush cushioning and weather-resistant materials. Every size available.",f:1},
- {n:"Outdoor Lounge Set",c:"Sofas",img:"coffee.jpg",d:"Rooftop lounge sets made for golden-hour gatherings above the city."},
- {n:"Balcony Lounge Chairs",c:"Chairs",img:"chairs.jpg",d:"Front-row seats to the skyline — sculpted comfort for balconies and terraces."},
- {n:"Outdoor Dining Set",c:"Dining",img:"dining.jpg",d:"Premium dining sets for villa terraces and long Emirates evenings."},
- {n:"Garden Gazebo",c:"Gazebos & Pergolas",img:"gazebo.jpg",d:"Draped garden gazebos — shade, privacy and a little theatre."},
- {n:"Resort Sunbeds & Cabanas",c:"Sunbeds",img:"sunbeds.jpg",d:"Resort-grade sunbeds and cabanas for pool decks and beach clubs."},
- {n:"Rooftop Bar Stools",c:"Bar Stools",img:"bar.jpg",d:"Bar seating with a view — for rooftops, pool bars and lounges."},
- {n:"Bean Bags",c:"Bean Bags",img:"beanbags.jpg",d:"Relaxed poolside bean bags in weather-ready fabrics."},
- {n:"Hanging Swing Chair",c:"Swings",img:"swing.jpg",d:"A gentle swing for gardens, verandas and quiet corners."},
- {n:"Modern Pergola",c:"Gazebos & Pergolas",img:"pergola.jpg",d:"Clean-lined pergolas that turn any patio into a personal haven."},
- {n:"Beach Club Umbrellas",c:"Shades",img:"umbrella.jpg",d:"Market and cantilever umbrellas plus shade sails for all-day comfort."},
- {n:"Majlis Accessories & Décor",c:"Accessories",img:"accessories.jpg",d:"Lanterns, poufs and cushions — the finishing touches of an Emirates evening."}];
-/* ---- product slider ---- */
+/* ---- products: infinite auto slider (data from store) ---- */
 const track=document.getElementById('sliderTrack');
-track.innerHTML=PRODUCTS.map(p=>`
- <div class="pcard"><div class="ph"><img src="../images-uae/${p.img}" alt="${p.n}"><span class="pill${p.f?' rose':''}">${p.f?'Featured':p.c}</span></div>
- <div class="info"><h3>${p.n}</h3><p class="desc">${p.d}</p>
- <div class="row"><div class="price">Price on Request<small>Custom sizes available</small></div><a class="enq" href="contact.html">Enquire</a></div></div></div>`).join('');
-let spage=0, stimer=null;
-const perView=()=>innerWidth<=640?1:innerWidth<=1020?2:3;
-const spages=()=>Math.ceil(PRODUCTS.length/perView());
-const sdots=document.getElementById('sliderDots');
-function sDraw(){sdots.innerHTML=Array.from({length:spages()},(_,i)=>`<button class="${i===spage?'on':''}" data-i="${i}" aria-label="Go to slide ${i+1}"></button>`).join('')}
-function sGo(i){
- spage=(i+spages())%spages();
- const card=track.children[0]; if(!card)return;
- const w=card.getBoundingClientRect().width+20;
- const maxShift=Math.max(0, track.scrollWidth - track.parentElement.clientWidth);
- track.style.transform=`translateX(${-Math.min(spage*perView()*w, maxShift)}px)`;
- sDraw();
+function cardHTML(p){
+ return `<div class="pcard"><div class="ph"><img src="${Bliss.img(p)}" alt="${p.n}"><span class="pill${p.f?' rose':''}">${p.f?'Featured':p.c}</span></div>
+ <div class="info"><h3>${p.n}</h3><p class="desc">${p.d||''}</p>
+ <div class="row"><div class="price">${p.price?Bliss.money(p.price):'Price on Request'}<small>${p.price?'Incl. VAT':'Custom sizes available'}</small></div>
+ <button class="enq" style="background:var(--navy);color:#fff;border:0;cursor:pointer" onclick="Bliss.addToCart(${p.id})">Add to Cart</button></div></div></div>`;
 }
-function sAuto(){clearInterval(stimer); stimer=setInterval(()=>sGo(spage+1), 4500)}
-document.querySelector('#prodSlider .prev').addEventListener('click',()=>{sGo(spage-1); sAuto()});
-document.querySelector('#prodSlider .next').addEventListener('click',()=>{sGo(spage+1); sAuto()});
-sdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){sGo(+b.dataset.i); sAuto()}});
+const plist=Bliss.products();
+track.innerHTML=plist.map(cardHTML).join('');
+let sidx=0, stimer=null, sAnimating=false;
+const sPer=()=>innerWidth<=640?1:innerWidth<=1020?2:3;
+function sStep(){ const c=track.children[0]; return c?c.getBoundingClientRect().width+20:0; }
+function sClones(){
+  track.querySelectorAll('.clone').forEach(e=>e.remove());
+  const pv=sPer();
+  for(let i=0;i<pv;i++){ const cl=track.children[i].cloneNode(true); cl.classList.add('clone'); track.appendChild(cl); }
+}
+function sApply(anim){
+  track.style.transition=anim?'':'none';
+  track.style.transform=`translateX(${-sidx*sStep()}px)`;
+}
+function sNext(){
+  if(sAnimating)return; sAnimating=true; sidx++; sApply(true);
+  setTimeout(()=>{ if(sidx>=plist.length){ sidx=0; sApply(false); } sAnimating=false; },680);
+}
+function sPrev(){
+  if(sAnimating)return;
+  if(sidx===0){ sidx=plist.length; sApply(false); requestAnimationFrame(()=>requestAnimationFrame(()=>{ sAnimating=true; sidx--; sApply(true); setTimeout(()=>sAnimating=false,680); })); }
+  else { sAnimating=true; sidx--; sApply(true); setTimeout(()=>sAnimating=false,680); }
+}
+function sAuto(){ clearInterval(stimer); stimer=setInterval(sNext,4200); }
+document.querySelector('#prodSlider .prev').addEventListener('click',()=>{sPrev(); sAuto();});
+document.querySelector('#prodSlider .next').addEventListener('click',()=>{sNext(); sAuto();});
 document.getElementById('prodSlider').addEventListener('mouseenter',()=>clearInterval(stimer));
 document.getElementById('prodSlider').addEventListener('mouseleave',sAuto);
-addEventListener('resize',()=>sGo(spage));
-sGo(0); sAuto();
+document.getElementById('sliderDots').style.display='none';
+addEventListener('resize',()=>{ sClones(); sApply(false); });
+sClones(); sApply(false); sAuto();
 /* ---- client reviews ---- */
 const REVIEWS=[
  {img:"r1.jpg",n:"Ahmed Al Mansoori",w:"Villa Owner · Palm Jumeirah, Dubai",t:"The Milano sofa and pergola completely changed our terrace. The quality feels five-star hotel level, and the team finished everything exactly on schedule."},
@@ -234,32 +224,50 @@ const REVIEWS=[
  {img:"r5.jpg",n:"Omar Al Farsi",w:"Procurement Manager · Hotel Group, UAE",t:"A complete FF&E package for our balcony furniture — design, fabrication, delivery and installation under one team. Flawless coordination."},
  {img:"r6.jpg",n:"Layla Haddad",w:"Villa Owner · Emirates Hills, Dubai",t:"Our gazebo and swing corner is now the family's favourite place every evening. Beautiful craftsmanship, and their maintenance visits keep it perfect."}];
 const rtrack=document.getElementById('revTrack');
-rtrack.innerHTML=REVIEWS.map(r=>`
- <div class="rev-card"><div class="rc"><img src="../images/reviews/${r.img}" alt="${r.n}">
+function revHTML(r,i){
+ return `<div class="rev-card" data-r="${i}"><div class="rc"><img src="../images/reviews/${r.img}" alt="${r.n}">
  <div class="stars">★★★★★</div><blockquote>“${r.t}”</blockquote>
- <div class="who"><b>${r.n}</b><span>${r.w}</span></div></div></div>`).join('');
-let rpage=0, rtimer=null;
+ <div class="who"><b>${r.n}</b><span>${r.w}</span></div></div></div>`;
+}
+rtrack.innerHTML=REVIEWS.map(revHTML).join('');
+let ridx=0, rtimer=null, rAnimating=false;
 const rdots=document.getElementById('revDots');
 const ACCENTS=['#c08a8d','#d9b98a','#0d1f3c','#7d9db5'];
 const rPer=()=>innerWidth<=700?1:3;
-const rMax=()=>Math.max(0, REVIEWS.length-rPer());
-function rDraw(){rdots.innerHTML=Array.from({length:rMax()+1},(_,i)=>`<button class="${i===rpage?'on':''}" data-i="${i}" aria-label="Reviews ${i+1}"></button>`).join('')}
-function rGo(i){
- rpage=((i%(rMax()+1))+(rMax()+1))%(rMax()+1);
- rtrack.style.transform=`translateX(${-rpage*(100/rPer())}%)`;
- const mid=rpage+Math.floor(rPer()/2);
- rtrack.querySelectorAll('.rev-card').forEach((c,k)=>c.classList.toggle('mid',k===mid));
- document.documentElement.style.setProperty('--revAccent',ACCENTS[rpage%ACCENTS.length]);
- rDraw();
+function rStep(){ const c=rtrack.children[0]; return c?c.getBoundingClientRect().width:0; }
+function rClones(){
+  rtrack.querySelectorAll('.clone').forEach(e=>e.remove());
+  const pv=rPer();
+  for(let i=0;i<pv;i++){ const cl=rtrack.children[i].cloneNode(true); cl.classList.add('clone'); rtrack.appendChild(cl); }
 }
-function rAuto(){clearInterval(rtimer); rtimer=setInterval(()=>rGo(rpage+1), 4500)}
-document.querySelector('#revBox .prev').addEventListener('click',()=>{rGo(rpage-1); rAuto()});
-document.querySelector('#revBox .next').addEventListener('click',()=>{rGo(rpage+1); rAuto()});
-rdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){rGo(+b.dataset.i); rAuto()}});
+function rMark(){
+  const mid=(ridx+Math.floor(rPer()/2))%REVIEWS.length;
+  rtrack.querySelectorAll('.rev-card').forEach(c=>c.classList.toggle('mid',+c.dataset.r===mid));
+  document.documentElement.style.setProperty('--revAccent',ACCENTS[ridx%ACCENTS.length]);
+  rdots.innerHTML=REVIEWS.map((_,i)=>`<button class="${i===ridx?'on':''}" data-i="${i}" aria-label="Review ${i+1}"></button>`).join('');
+}
+function rApply(anim){
+  rtrack.style.transition=anim?'':'none';
+  rtrack.style.transform=`translateX(${-ridx*rStep()}px)`;
+  rMark();
+}
+function rNext(){
+  if(rAnimating)return; rAnimating=true; ridx++; rApply(true);
+  setTimeout(()=>{ if(ridx>=REVIEWS.length){ ridx=0; rApply(false); } rAnimating=false; },680);
+}
+function rPrev(){
+  if(rAnimating)return;
+  if(ridx===0){ ridx=REVIEWS.length; rApply(false); requestAnimationFrame(()=>requestAnimationFrame(()=>{ rAnimating=true; ridx--; rApply(true); setTimeout(()=>rAnimating=false,680); })); }
+  else { rAnimating=true; ridx--; rApply(true); setTimeout(()=>rAnimating=false,680); }
+}
+function rAuto(){ clearInterval(rtimer); rtimer=setInterval(rNext,4500); }
+document.querySelector('#revBox .prev').addEventListener('click',()=>{rPrev(); rAuto();});
+document.querySelector('#revBox .next').addEventListener('click',()=>{rNext(); rAuto();});
+rdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){ ridx=+b.dataset.i; rApply(true); rAuto(); }});
 document.getElementById('revBox').addEventListener('mouseenter',()=>clearInterval(rtimer));
 document.getElementById('revBox').addEventListener('mouseleave',rAuto);
-addEventListener('resize',()=>rGo(rpage));
-rGo(0); rAuto();
+addEventListener('resize',()=>{ rClones(); rApply(false); });
+rClones(); rApply(false); rAuto();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 const cio=new IntersectionObserver(es=>es.forEach(e=>{
@@ -269,13 +277,27 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{
 }),{threshold:.5});
 document.querySelectorAll('.count').forEach(el=>cio.observe(el));
 
-/* ---- hero slider ---- */
-const hslides=document.querySelectorAll('.hslide'), hdots=document.getElementById('heroDots');
+/* ---- hero slider (slides from store settings) ---- */
+const HSLIDES=Bliss.settings().heroSlides;
+const heroBg=document.getElementById('heroBg'), heroTexts=document.getElementById('heroTexts'), hdots=document.getElementById('heroDots');
+const hsrc=s=>(s.img||'').startsWith('http')||(s.img||'').startsWith('data:')?s.img:'../'+s.img;
+heroBg.innerHTML=HSLIDES.map((s,i)=>`<div class="hslide${i===0?' on':''}"><img src="${hsrc(s)}" alt=""></div>`).join('');
+heroTexts.innerHTML=HSLIDES.map((s,i)=>`<div class="htext${i===0?' on':''}">
+  <div class="eyebrow">${s.kick||''}</div><h1>${s.h||''}</h1><p>${s.sub||''}</p>
+  <div class="hero-cta"><a class="btn rose" href="${s.link||'collection.html'}">${s.btn||'Explore'} <span class="arr">→</span></a></div></div>`).join('');
+const hslides=heroBg.querySelectorAll('.hslide'), htexts=heroTexts.querySelectorAll('.htext');
 let hcur=0, htimer=null;
-function hDraw(){hdots.innerHTML=Array.from(hslides,(_,i)=>`<button class="${i===hcur?'on':''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join('')}
-function hGo(i){hcur=(i+hslides.length)%hslides.length; hslides.forEach((s,k)=>s.classList.toggle('on',k===hcur)); hDraw()}
-function hAuto(){clearInterval(htimer); htimer=setInterval(()=>hGo(hcur+1),6000)}
-hdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){hGo(+b.dataset.i); hAuto()}});
+function hDraw(){ hdots.innerHTML=HSLIDES.map((_,i)=>`<button class="${i===hcur?'on':''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join(''); }
+function hGo(i){
+  hcur=((i%HSLIDES.length)+HSLIDES.length)%HSLIDES.length;
+  hslides.forEach((s,k)=>s.classList.toggle('on',k===hcur));
+  htexts.forEach((s,k)=>s.classList.toggle('on',k===hcur));
+  hDraw();
+}
+function hAuto(){ clearInterval(htimer); htimer=setInterval(()=>hGo(hcur+1),6000); }
+document.getElementById('hPrev').addEventListener('click',()=>{hGo(hcur-1); hAuto();});
+document.getElementById('hNext').addEventListener('click',()=>{hGo(hcur+1); hAuto();});
+hdots.addEventListener('click',e=>{const b=e.target.closest('button'); if(b){hGo(+b.dataset.i); hAuto();}});
 hGo(0); hAuto();
 const bg=document.getElementById('heroBg');
 addEventListener('scroll',()=>{const y=scrollY;if(y<innerHeight)bg.style.transform=`translateY(${y*0.22}px)`},{passive:true});
