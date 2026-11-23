@@ -76,7 +76,7 @@ nav.main a.active{background:var(--navy);color:#fff}
 .marquee i{color:#f6e7cd;font-style:normal}
 @keyframes mq{to{transform:translateX(-50%)}}
 /* ---------- sections & reveal ---------- */
-.sec{padding:92px 0}
+.sec{padding-top:92px;padding-bottom:92px}
 .sec-head{max-width:700px;margin-bottom:40px}
 .sec-head h2{font-size:clamp(31px,4.2vw,46px);margin:13px 0 11px}
 .sec-head h2 em{font-style:italic;color:var(--rose)}
@@ -216,7 +216,7 @@ footer a:hover{color:#fff}
  .split,.contact-grid{grid-template-columns:1fr}
  .list6{grid-template-columns:1fr}
  .foot-in{grid-template-columns:1fr}
- .sec{padding:62px 0}
+ .sec{padding-top:62px;padding-bottom:62px}
 }
 /* ---------- product slider ---------- */
 .slider{position:relative}
@@ -271,7 +271,7 @@ footer a:hover{color:#fff}
 /* ---------- mobile polish (2026-11-23) ---------- */
 @media(max-width:760px){
  .wrap{padding:0 16px}
- .hero{height:94svh;min-height:540px;border-radius:0 0 26px 26px}
+ .hero{height:94svh;min-height:540px;border-radius:0}
  .hero-texts{bottom:104px}
  .htext{left:18px;right:18px}
  .htext h1{font-size:clamp(27px,8.4vw,34px)}
@@ -281,7 +281,7 @@ footer a:hover{color:#fff}
  .nav-in{padding:6px 8px 6px 12px;gap:8px}
  .nicon{width:38px;height:38px;font-size:15px}
  .burger{width:38px;height:38px}
- .sec{padding:48px 0}
+ .sec{padding-top:48px;padding-bottom:48px}
  .feature{padding:30px 22px;border-radius:26px}
  .cta{padding:44px 22px;border-radius:26px}
  footer{border-radius:26px 26px 0 0;margin-top:64px}
