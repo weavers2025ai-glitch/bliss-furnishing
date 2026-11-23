@@ -300,3 +300,7 @@ footer a:hover{color:#fff}
  .pcard .ph img{height:230px}
  .marquee .track{font-size:16px;gap:34px}
 }
+
+/* hero buttons match the marquee strip (logo maroon) */
+.hero .btn.rose{background:#7e1b2c;border-color:#7e1b2c}
+.hero .btn.rose:hover{background:#5b000b;border-color:#5b000b;box-shadow:0 14px 26px rgba(91,0,11,.4)}
