@@ -56,6 +56,7 @@ th{background:var(--sand);font-size:12px;letter-spacing:1px;text-transform:upper
     <a data-v="dash" class="on">📊 Dashboard</a>
     <a data-v="prods">🛋 Products</a>
     <a data-v="slides">🖼 Hero Slides</a>
+    <a data-v="pages">📄 Pages</a>
     <a data-v="orders">🧾 Orders</a>
     <a data-v="custs">👥 Customers</a>
     <a data-v="sets">⚙️ Settings</a>
@@ -138,6 +139,20 @@ function show(v){
     <div id="slBox">${sl.map((s,i)=>slideForm(s,i)).join('')}</div>
     <button class="btn ghost" onclick="addSlide()">+ Add Slide</button>
     <button class="btn rose" onclick="saveSlides()">Save Slides</button>`;
+  }
+  if(v==="pages"){
+    const C=Bliss.content();
+    const esc=v=>String(v||'').replace(/"/g,'&quot;');
+    const fld=([k,label,typ])=>{
+      const val=C[k]||'';
+      if(typ==='i'){ const prev=(val.startsWith('data:')||val.startsWith('http'))?val:'../'+val;
+        return `<div class="fld"><label>${label}</label><div style="display:flex;gap:10px;align-items:flex-start"><img class="pgPrev thumb" style="width:84px;height:84px" src="${prev}"><div style="flex:1"><input data-ck="${k}" value="${esc(val)}"><label class="btn sm rose" style="display:inline-block;margin-top:7px">🖼 Upload from PC<input type="file" accept="image/*" style="display:none" onchange="upPageImg(this)"></label></div></div></div>`; }
+      if(typ==='a') return `<div class="fld"><label>${label}</label><textarea data-ck="${k}" rows="3">${String(val).replace(/</g,'&lt;')}</textarea></div>`;
+      return `<div class="fld"><label>${label}</label><input data-ck="${k}" value="${esc(val)}"></div>`;
+    };
+    view.innerHTML=`<h2>Pages — Content Editor</h2><p class="hint" style="margin:6px 0 14px">Har page ka text aur photo yahan se change karein — bilkul Hero Slides ki tarah. Photo ke liye path likhein ya <b>Upload from PC</b> se apni photo lagayein; koi bhi size ki photo page par khud fit ho jayegi.</p>`
+      + PAGE_SECTIONS.map(sec=>`<div class="editor"><h3 style="margin-bottom:13px">${sec[0]}</h3>${sec[1].map(fld).join('')}</div>`).join('')
+      + `<button class="btn rose" onclick="savePages()">Save All Page Content</button>`;
   }
   if(v==="orders"){
     const os=Bliss.orders(), map=prodByName();
@@ -229,6 +244,12 @@ function saveSlides(){
   const slides=[...document.querySelectorAll('.slidebox')].map(b=>({img:b.querySelector('.sImg').value.trim(),kick:b.querySelector('.sKick').value.trim(),h:b.querySelector('.sH').value.trim(),sub:b.querySelector('.sSub').value.trim(),btn:b.querySelector('.sBtn').value.trim(),link:b.querySelector('.sLink').value.trim()}));
   const s=Bliss.settings(); s.heroSlides=slides; Bliss.saveSettings(s); alert("Slides saved — refresh the home page to see them.");
 }
+
+/* pages content editor */
+const PAGE_SECTIONS=[["🏠 Home Page", [["home.milanoImg", "Milano section — photo", "i"], ["home.milanoTitle", "Milano — heading", "t"], ["home.milanoText", "Milano — text", "a"], ["home.milanoText2", "Milano — small text", "a"], ["home.collTitle", "Collection — heading", "t"], ["home.collSub", "Collection — sub text", "a"], ["home.why1t", "Why Bliss 1 — title", "t"], ["home.why1d", "Why Bliss 1 — text", "a"], ["home.why2t", "Why Bliss 2 — title", "t"], ["home.why2d", "Why Bliss 2 — text", "a"], ["home.why3t", "Why Bliss 3 — title", "t"], ["home.why3d", "Why Bliss 3 — text", "a"], ["home.why4t", "Why Bliss 4 — title", "t"], ["home.why4d", "Why Bliss 4 — text", "a"], ["home.aboutTitle", "About — heading", "t"], ["home.aboutText", "About — text 1", "a"], ["home.aboutText2", "About — text 2", "a"], ["home.aboutImg", "About — photo", "i"], ["home.ctaTitle", "Bottom banner — heading", "t"], ["home.ctaText", "Bottom banner — text", "a"]]], ["ℹ️ About Page", [["about.heroTitle", "Top heading", "t"], ["about.heroSub", "Top sub text", "a"], ["about.whoImg", "Who We Are — photo", "i"], ["about.whoTitle", "Who We Are — heading", "t"], ["about.whoText", "Who We Are — text 1", "a"], ["about.whoText2", "Who We Are — text 2", "a"], ["about.mdImg", "MD section — photo", "i"], ["about.mdQuote", "MD — quote heading", "t"], ["about.mdText", "MD — text 1", "a"], ["about.mdText2", "MD — text 2", "a"], ["about.philImg", "Philosophy — photo", "i"], ["about.philTitle", "Philosophy — heading", "t"], ["about.philText", "Philosophy — text 1", "a"], ["about.philText2", "Philosophy — text 2", "a"], ["about.pr1", "Promise 1", "t"], ["about.pr2", "Promise 2", "t"], ["about.pr3", "Promise 3", "t"], ["about.pr4", "Promise 4", "t"], ["about.pr5", "Promise 5", "t"], ["about.pr6", "Promise 6", "t"], ["about.unitsTitle", "Units — heading", "t"], ["about.u1t", "Unit 1 — name", "t"], ["about.u1d", "Unit 1 — text", "a"], ["about.u2t", "Unit 2 — name", "t"], ["about.u2d", "Unit 2 — text", "a"], ["about.mktTitle", "Market — heading", "t"], ["about.mktText", "Market — text", "a"], ["about.ctaTitle", "Bottom banner — heading", "t"], ["about.ctaText", "Bottom banner — text", "a"]]], ["🛠 Services Page", [["services.heroTitle", "Top heading", "t"], ["services.heroSub", "Top sub text", "a"], ["services.s1t", "Service 1 — name", "t"], ["services.s1d", "Service 1 — text", "a"], ["services.s2t", "Service 2 — name", "t"], ["services.s2d", "Service 2 — text", "a"], ["services.s3t", "Service 3 — name", "t"], ["services.s3d", "Service 3 — text", "a"], ["services.s4t", "Service 4 — name", "t"], ["services.s4d", "Service 4 — text", "a"], ["services.s5t", "Service 5 — name", "t"], ["services.s5d", "Service 5 — text", "a"], ["services.s6t", "Service 6 — name", "t"], ["services.s6d", "Service 6 — text", "a"], ["services.s7t", "Service 7 — name", "t"], ["services.s7d", "Service 7 — text", "a"], ["services.s8t", "Service 8 — name", "t"], ["services.s8d", "Service 8 — text", "a"], ["services.s9t", "Service 9 — name", "t"], ["services.s9d", "Service 9 — text", "a"], ["services.howImg", "How It Works — photo", "i"], ["services.howTitle", "How It Works — heading", "t"], ["services.howText", "How It Works — text", "a"], ["services.howP1", "Product line", "a"], ["services.howP2", "Price line", "a"], ["services.howP3", "Place line", "a"]]], ["✉️ Contact Page", [["contact.heroTitle", "Top heading", "t"], ["contact.heroSub", "Top sub text", "a"], ["contact.email", "Email", "t"], ["contact.emailNote", "Email — small note", "t"], ["contact.phone", "Phone / WhatsApp", "t"], ["contact.phoneNote", "Phone — small note", "t"], ["contact.web", "Website", "t"], ["contact.webNote", "Website — small note", "t"], ["contact.img", "Side photo", "i"]]], ["🛍 Collection Page", [["collection.heroTitle", "Top heading", "t"], ["collection.heroSub", "Top sub text", "a"], ["collection.promoImg", "Sidebar promo photo", "i"]]], ["🔻 Footer (sab pages)", [["footer.tag", "Footer tagline", "a"]]]];
+function upPageImg(inp){ const wrap=inp.closest('.fld'); fileToDataURL(inp,url=>{ wrap.querySelector('[data-ck]').value=url; wrap.querySelector('.pgPrev').src=url; }); }
+function savePages(){ const o={}; view.querySelectorAll('[data-ck]').forEach(el=>o[el.getAttribute('data-ck')]=el.value); Bliss.saveContent(o); alert("Page content saved — refresh the website pages to see the changes."); }
+
 /* orders/customers/settings/data */
 function setStatus(i,st){ const os=Bliss.orders(); os[i].status=st; Bliss.saveOrders(os); }
 function delOrder(i){ if(!confirm("Delete this order?"))return; const os=Bliss.orders(); os.splice(i,1); Bliss.saveOrders(os); show('orders'); }

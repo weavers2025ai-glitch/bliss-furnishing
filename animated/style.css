@@ -70,8 +70,8 @@ nav.main a.active{background:var(--navy);color:#fff}
 .hero-stats b{font-family:'Fraunces',serif;font-size:32px;display:block}
 .hero-stats span{font-size:12px;letter-spacing:1.7px;text-transform:uppercase;color:#c6d0e4}
 /* ---------- marquee ---------- */
-.marquee{background:var(--navy);color:#fff;overflow:hidden;padding:16px 0}
-.hero .marquee{position:absolute;left:0;right:0;bottom:0;z-index:4;background:rgba(8,22,48,.85);backdrop-filter:blur(6px);padding:13px 0}
+.marquee{background:#6d1220;color:#fff;overflow:hidden;padding:16px 0}
+.hero .marquee{position:absolute;left:0;right:0;bottom:0;z-index:4;background:linear-gradient(90deg,rgba(91,0,11,.96),rgba(126,27,44,.96));backdrop-filter:blur(6px);padding:13px 0}
 .marquee .track{display:flex;gap:46px;white-space:nowrap;width:max-content;animation:mq 44s linear infinite;font-family:'Fraunces',serif;font-size:19px}
 .marquee i{color:var(--gold);font-style:normal}
 @keyframes mq{to{transform:translateX(-50%)}}
