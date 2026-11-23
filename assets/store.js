@@ -21,7 +21,7 @@ window.Bliss={
  K,
  money:n=>"AED "+Number(n||0).toLocaleString("en-US"),
  img:p=>R+(p.img||""),
- products(){ const o=load(K.override,null); return Array.isArray(o)&&o.length?o:(window.PRODUCTS||[]); },
+ products(){ const o=load(K.override,null); if(Array.isArray(o)&&o.length) return o; return (typeof PRODUCTS!=="undefined"&&Array.isArray(PRODUCTS))?PRODUCTS:[]; },
  saveProducts(list){ save(K.override,list); },
  settings(){ return Object.assign({},DEFAULT_SETTINGS,load(K.settings,{})); },
  saveSettings(s){ save(K.settings,s); },
