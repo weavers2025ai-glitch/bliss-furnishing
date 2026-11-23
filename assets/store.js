@@ -20,7 +20,7 @@ const DEFAULT_SETTINGS={wa:"923139168846",email:"sales@blissfurnishing.ae",googl
 window.Bliss={
  K,
  money:n=>"AED "+Number(n||0).toLocaleString("en-US"),
- img:p=>R+(p.img||""),
+ img:p=>{ const v=p.img||""; return (v.startsWith("data:")||v.startsWith("http"))?v:R+v; },
  products(){ const o=load(K.override,null); if(Array.isArray(o)&&o.length) return o; return (typeof PRODUCTS!=="undefined"&&Array.isArray(PRODUCTS))?PRODUCTS:[]; },
  saveProducts(list){ save(K.override,list); },
  settings(){ return Object.assign({},DEFAULT_SETTINGS,load(K.settings,{})); },
