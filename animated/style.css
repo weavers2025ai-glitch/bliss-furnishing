@@ -267,3 +267,36 @@ footer a:hover{color:#fff}
 .harr:hover{background:rgba(8,22,48,.65)}
 .harr.prev{left:16px}.harr.next{right:16px}
 @media(max-width:700px){.harr{display:none}.hero-texts{bottom:118px}}
+
+/* ---------- mobile polish (2026-11-23) ---------- */
+@media(max-width:760px){
+ .wrap{padding:0 16px}
+ .hero{height:94svh;min-height:540px;border-radius:0 0 26px 26px}
+ .hero-texts{bottom:104px}
+ .htext{left:18px;right:18px}
+ .htext h1{font-size:clamp(27px,8.4vw,34px)}
+ .htext p{font-size:14.5px;margin:10px 0 16px}
+ .logo img{height:38px}
+ .nav-shell{padding:0 10px;top:10px}
+ .nav-in{padding:6px 8px 6px 12px;gap:8px}
+ .nicon{width:38px;height:38px;font-size:15px}
+ .burger{width:38px;height:38px}
+ .sec{padding:48px 0}
+ .feature{padding:30px 22px;border-radius:26px}
+ .cta{padding:44px 22px;border-radius:26px}
+ footer{border-radius:26px 26px 0 0;margin-top:64px}
+ .foot-in{padding:44px 0 30px;gap:24px}
+ .fld input,.fld textarea,.fld select{font-size:16px !important}
+ .btn{padding:12px 22px}
+ .sbtn{width:40px;height:40px;font-size:20px}
+ .rev-card{padding:10px 4px}
+ .rev-card .rc{padding:22px 16px}
+ #waFloat{width:54px !important;height:54px !important;right:16px !important;bottom:16px !important}
+ .pagehero{padding-top:148px}
+ .pagehero h1{font-size:clamp(32px,9vw,44px)}
+}
+@media(max-width:430px){
+ .tiles{gap:12px}
+ .pcard .ph img{height:230px}
+ .marquee .track{font-size:16px;gap:34px}
+}
