@@ -72,7 +72,7 @@ th{background:var(--sand);font-size:12px;letter-spacing:1px;text-transform:upper
 <script src="../assets/store.js?v=3"></script>
 <script>
 const PWK="bliss_admin_pw";
-const getPw=()=>localStorage.getItem(PWK)||"bliss-admin-2026";
+const getPw=()=>localStorage.getItem(PWK)||"admin1234";
 function tryLogin(){ if(pwIn.value===getPw()){ sessionStorage.setItem("bliss_admin","1"); boot(); } else alert("Wrong password"); }
 function logout(){ sessionStorage.removeItem("bliss_admin"); location.reload(); }
 function boot(){ gate.style.display="none"; app.style.display="grid"; show("dash"); }
